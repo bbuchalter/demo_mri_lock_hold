@@ -29,6 +29,20 @@ ruby_sleep_2_seconds_ruby_sleep_2_seconds() {
 	tmux send-keys -t $SESSION_NAME "time curl http://localhost:3000/ruby_sleep_2_seconds"  C-m
 }
 
+ruby_sleep_2_seconds_c_sleep_2_seconds() {
+	tmux select-pane -t 1
+	tmux send-keys -t $SESSION_NAME "time curl http://localhost:3000/ruby_sleep_2_seconds"  C-m
+	tmux select-pane -t 2
+	tmux send-keys -t $SESSION_NAME "time curl http://localhost:3000/c_sleep_2_seconds"  C-m
+}
+
+c_sleep_2_seconds_c_sleep_2_seconds() {
+	tmux select-pane -t 1
+	tmux send-keys -t $SESSION_NAME "time curl http://localhost:3000/c_sleep_2_seconds"  C-m
+	tmux select-pane -t 2
+	tmux send-keys -t $SESSION_NAME "time curl http://localhost:3000/c_sleep_2_seconds"  C-m
+}
+
 cleanup() {
 	tmux select-pane -t 0
 	tmux send-keys -t $SESSION_NAME C-c C-m # kill rails server
@@ -39,6 +53,8 @@ cleanup() {
 demo_loop() {
 	echo "Which demo would you like?"
 	echo "1) ruby_sleep_2_seconds && ruby_sleep_2_seconds"
+	echo "2) ruby_sleep_2_seconds && c_sleep_2_seconds"
+	echo "3) c_sleep_2_seconds && c_sleep_2_seconds"
 	echo "9) exit"
 	read -p "Choose number: " demo_number
 
@@ -47,10 +63,20 @@ demo_loop() {
 			ruby_sleep_2_seconds_ruby_sleep_2_seconds
 			demo_loop
 			;;
+		"2")
+			ruby_sleep_2_seconds_c_sleep_2_seconds
+			demo_loop
+			;;
+		"3")
+			c_sleep_2_seconds_c_sleep_2_seconds
+			demo_loop
+			;;
 		"9")
 			cleanup
 			;;
 		*)
+			cleanup
+			;;
 	esac
 }
 
