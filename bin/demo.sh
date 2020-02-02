@@ -7,8 +7,8 @@ SESSION_NAME="gil_demo"
 check_for_existing_tmux_session_and_kill() {
 	if [[ "$(tmux has-session -t ${SESSION_NAME}; echo $?)" == 0 ]] # no session found
 	then
-		echo "Found existing tmux session. Killing it."
-		tmux kill-session -t $SESSION_NAME
+		echo "Found existing tmux session. Cleaning it up."
+		cleanup
 	fi
 }
 
